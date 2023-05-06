@@ -112,5 +112,32 @@ public class SharelaneTests {
 
     }
 
+    @Test
+    public void negativeRegistrationTestSighUp() throws InterruptedException {
 
+        WebElement signUpButton = driver.findElement(By.xpath("//a[@href='./register.py']"));
+        signUpButton.click();
+
+        WebElement zipCodeInput = driver.findElement(By.cssSelector("input[name=zip_code]"));
+        zipCodeInput.clear();
+        zipCodeInput.sendKeys("12345");
+
+        WebElement continueButton = driver.findElement(By.cssSelector("input[value=Continue]"));
+        continueButton.click();
+
+        WebElement firstNameInput = driver.findElement(By.cssSelector("input[name=first_name]"));
+        Assert.assertTrue(firstNameInput.isDisplayed());
+        firstNameInput.clear();
+        firstNameInput.sendKeys(" ");
+
+        WebElement registration = driver.findElement(By.cssSelector("input[value= Register]"));
+        registration.click();
+
+        WebElement errorMessage = driver.findElement(By.cssSelector(".error_message"));
+        Assert.assertTrue(errorMessage.isDisplayed());
+        String expectedErrorMessage = "Oops, error on page. Some of your fields have invalid data or email was previously used";
+        Assert.assertEquals(errorMessage.getText(), expectedErrorMessage);
+
+
+    }
 }
